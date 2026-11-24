@@ -1,0 +1,65 @@
+<div class="about-grid">
+  <div>
+    <div class="page-head">
+      <p class="eyebrow">关于</p>
+      <h1>我是胡天宇</h1>
+      <p class="lede">做交互式解释器，也做前端。喜欢把不好解释的东西拆成能动手的部分：可以点、可以拖、可以算错。</p>
+    </div>
+
+    <div class="prose">
+      <p>我关心的不是“把结论讲清楚”，而是“让人能自己验证一遍”。所以我的项目大多带着一组可以拖的控件、一张随时会变的图，和一串当场算出来的数字——它们不是演示，是同一个算法的另一面。</p>
+
+      <h2 id="doing">在做什么</h2>
+
+      <p>目前主要在做 <a href="mlp/index.html">MLP 观测台</a>：一台 2–6–1 的小机器，在两个月亮之间学一条会拐的边界，全过程都在浏览器里现算。它还在长，下一步是把它做得更像一张能动手的纸——少一点面板，多一点直接画上去的笔迹。</p>
+
+      <p>另一条线是前端本身：排版、深浅色、响应式、加载性能。这个站就是那条线的练习，也是我写笔记的地方。</p>
+
+      <h2 id="site">这个站为什么长这样</h2>
+
+      <p>第一版是一页长滚动：首屏、作品、方法、关于，全部压在一屏一屏里。内容能站住，但每加一篇笔记就要改主页面，很快就烦了。于是有了现在这个带侧栏和文章列表的版本。</p>
+
+      <figure>
+        <img src="assets/img/homepage.webp" alt="上一版单页作品集的首屏：左边是标题，右边是网络示意图" width="1440" height="900" loading="lazy">
+        <figcaption><span class="fig-no">图 0</span>上一版：一页装完的作品集。结构还在，皮换了。</figcaption>
+      </figure>
+
+      <p>版式参考了 <a href="https://liuzr-523.github.io" target="_blank" rel="noopener noreferrer">Chirpy 主题</a> 的骨架：左侧栏放头像和导航，右侧是文章流，长文带目录，页脚挂“最近更新”和“热门标签”。配色没有照搬，用的是观测台那套纸白、墨黑、朱红和青。</p>
+
+      <h2 id="now">现在</h2>
+
+      <p>在学怎么把“过程”讲得更好看，也在补一些基础：线性代数、概率、还有把 CSS 写得更省的本事。文章更新不快，但每篇都是真的做过才写。</p>
+
+      <h2 id="colophon">实现与版权</h2>
+
+      <p>站内没有分析脚本，没有第三方字体，也没有一个外部请求。正文用系统字体，代码用等宽字体；两套配色写在 CSS 变量里，跟随系统，也可以手动切换，选择记在本地。</p>
+
+      <p>页面由一组 HTML 片段和一个只依赖 Python 标准库的构建脚本生成。代码在 <a href="https://github.com/hulaoyu" target="_blank" rel="noopener noreferrer">GitHub</a> 上，<a href="feed.xml">RSS</a> 可以直接订阅。</p>
+
+      <p>内容保留部分权利：欢迎引用并注明出处，不要整站搬运。</p>
+    </div>
+  </div>
+
+  <aside class="about-aside">
+    <div class="card">
+      <dl>
+        <dt>现在</dt>
+        <dd>把解释器做得更像一张能动手的纸</dd>
+        <dt>工具</dt>
+        <dd>原生 JS · Canvas · CSS<br>Python 标准库</dd>
+        <dt>在做</dt>
+        <dd><a href="mlp/index.html">MLP 观测台</a></dd>
+        <dt>联系</dt>
+        <dd><a href="https://github.com/hulaoyu" target="_blank" rel="noopener noreferrer">GitHub @hulaoyu</a></dd>
+        <dt>订阅</dt>
+        <dd><a href="feed.xml">RSS</a></dd>
+      </dl>
+    </div>
+    <div class="card">
+      <dl>
+        <dt>站的边界</dt>
+        <dd>无追踪<br>无外部依赖<br>可离线打开</dd>
+      </dl>
+    </div>
+  </aside>
+</div>

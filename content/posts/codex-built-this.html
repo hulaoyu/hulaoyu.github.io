@@ -1,0 +1,79 @@
+<!--meta
+{
+  "slug": "codex-built-this",
+  "title": "一次对话，把站做出来：和 Codex 搭首页",
+  "date": "2026-11-02",
+  "categories": ["建站"],
+  "tags": ["Codex", "AI Agent", "GitHub Pages", "建站"],
+  "excerpt": "我描述想法，它负责设计、编码和部署。一次对话确实能到「可以上线」，但从「可以上线」到「愿意读」，中间还隔着自己走的一段路。",
+  "pinned": false
+}
+-->
+<p>起点是一个空仓库，和三句话的需求：讲清楚我在用什么 AI Agent、用它做了什么、结果怎么样。没有后台，没有表单，最后要能挂在 GitHub Pages 上。</p>
+
+<p>我没有先画稿子，也没写需求文档。我把这三句话打进 Codex，然后一遍遍看它交出来的东西。</p>
+
+<h2 id="split">分工：我描述，它动手</h2>
+
+<p>Codex 负责的部分很具体：拆页面结构、写 HTML / CSS / JS、调响应式、给部署步骤。我负责的是它做不了的两件事——决定“要说什么”，和判断“这样说对不对”。</p>
+
+<p>第一次交互大概是这样，比想象中安静：</p>
+
+<div class="term">
+  <div class="term-bar"><i></i><i></i><i></i><span>codex — 项目目录</span></div>
+  <div class="term-body"><span class="cmd">$ codex</span>
+<span class="ask">› 帮我做一个个人网站，介绍我在用的 AI Agent，最后能发到 GitHub Pages</span>
+
+<span class="ok">✓</span> 已创建 index.html
+<span class="ok">✓</span> 已完成页面结构与视觉
+<span class="ok">✓</span> 已适配桌面端与移动端
+<span class="ok">✓</span> 已准备 GitHub Pages 部署
+<span class="cmd">$</span> <span class="caret"></span></div>
+</div>
+
+<h2 id="rounds">四次推进</h2>
+
+<ol>
+  <li><strong>先定结构。</strong>我只让它列大纲：首屏、Agent 介绍、用途、效果、页脚。大纲对了才让它写代码。这一步省下的返工比后面所有微调加起来都多。</li>
+  <li><strong>写页面。</strong>一次生成语义化的标签、一套 CSS 变量和十几行交互脚本；按钮、卡片、终端示意都是一起给的，风格是统一的。</li>
+  <li><strong>响应式。</strong>它主动加了断点，但第一版的手机样式只是“把桌面缩窄”：字号没变，行宽还是桌面那种感觉。</li>
+  <li><strong>部署。</strong>给出两种发布路径、<code>.nojekyll</code> 的作用，以及相对路径在项目仓库里的坑。</li>
+</ol>
+
+<h2 id="good">它做得好的三件事</h2>
+
+<ul>
+  <li><strong>结构先于样式。</strong>先给我能读的语义标签，再谈视觉。这让后来的替换成本很低。</li>
+  <li><strong>不乱加依赖。</strong>没有 CDN、没有字体服务、没有图标库。整页可以离线打开，这一点我后来一直保留着。</li>
+  <li><strong>把“交付”当回事。</strong>每次改完都附一句“现在可以推了”，再加具体命令，而不是留一句“你还需要自己配置”。</li>
+</ul>
+
+<h2 id="fixed">我后来改掉的四处</h2>
+
+<p>这些不算它写错，只是它不知道我的偏好。</p>
+
+<ol>
+  <li><strong>行宽。</strong>中文正文一行排到 70 多个字，读三行就串行。收到 36–40 个字，行高从 1.6 提到 1.8，立刻好读。</li>
+  <li><strong>对比度。</strong>浅灰字配浅米底，在显示器上勉强，在手机上几乎看不见。次要文字也提到了能通过 WCAG AA 的深度。</li>
+  <li><strong>CTA 链接。</strong>“查看仓库”的 <code>href</code> 写的是 <code>https://github.com</code>，看着像真的，点进去是首页。</li>
+  <li><strong>口气。</strong>“强大的 AI 能力”“全面赋能”这种词，我没法替它背。全部改成了具体动作和具体数字。</li>
+</ol>
+
+<h2 id="traps">三个坑</h2>
+
+<ul>
+  <li><strong>它会编链接。</strong>生成时不知道你的仓库地址，就会填一个形状正确的占位符。发布前必须逐个点一遍。</li>
+  <li><strong>它默认你在做个人站。</strong>仓库名不是 <code>username.github.io</code> 的时候，所有以 <code>/</code> 开头的路径都会 404，必须改成相对路径。</li>
+  <li><strong>“响应式”不等于“手机上能读”。</strong>断点存在只说明布局没炸，不说明字号、行宽、点击区域合适。</li>
+</ul>
+
+<h2 id="later">后来我把排版重做了一遍</h2>
+
+<p>首页上线之后，我又花了两个晚上，把它改成现在这个样子：加了侧栏、文章列表、分类和标签，字号和行高重新量过，深浅色也做成了两套变量。骨架还是那次对话里搭的——首屏、分区、页脚的位置几乎没动；皮肤和内容是自己重写的。</p>
+
+<p>这次重做让我确认了一件事：AI 能把“从零到能上线”这段路压得很短，但“从能上线到愿意读”这一段，还是得自己走。</p>
+
+<div class="callout">
+  <span class="callout-title">给同样想试的人</span>
+  <p>让 AI 先交结构，再交样式；每次只改一件事；把它给的每个链接都点一遍。剩下的时间花在文案上，收益比调圆角大得多。</p>
+</div>

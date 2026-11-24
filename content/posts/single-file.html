@@ -1,0 +1,58 @@
+<!--meta
+{
+  "slug": "single-file",
+  "title": "单文件、无依赖：一个页面有多重",
+  "date": "2026-09-27",
+  "categories": ["工程"],
+  "tags": ["性能", "单文件", "Canvas", "GitHub Pages"],
+  "excerpt": "不到 100 KB 的 HTML，零个外部请求，打开就能用。这条路是刻意选的，代价也写在明面上。",
+  "pinned": false
+}
+-->
+<p>观测台只有一个文件：不到 100 KB 的 HTML，里面塞着样式、脚本、数据生成和渲染。没有构建步骤，没有 <code>node_modules</code>，也没有一个指向 CDN 的请求。断网也能打开。</p>
+
+<h2 id="why">为什么选这条路</h2>
+
+<ul>
+  <li><strong>它必须能离线打开。</strong>我想把它发给别人，链接点开就该能用，而不是先看到一堆“正在加载”和失败的字体请求。</li>
+  <li><strong>它必须一直能用。</strong>依赖 CDN 的页面，半年后可能因为某个库升了大版本而变样；单文件不会。</li>
+  <li><strong>它必须容易检查。</strong>所有参数都在一个 <code>S</code> 对象里，想验证一个数，改一行就行。</li>
+</ul>
+
+<p>对一个需要“眼见为实”的解释器来说，少一层依赖，就少一层读者没法验证的东西。</p>
+
+<h2 id="cost">代价</h2>
+
+<p>代价同样具体：</p>
+
+<ul>
+  <li><strong>没有模块化。</strong>两千多行放在一起，函数顺序就是依赖顺序。改动一处要往上翻，确认状态是在哪初始化的。</li>
+  <li><strong>样式也会膨胀。</strong>没有工具类，每个组件的手写规则都在同一个文件里，久了要靠注释分区。</li>
+  <li><strong>复用很难。</strong>想把某一块搬到别的页面，得连状态和渲染一起搬。这也促使我把“能省的交互”省掉。</li>
+</ul>
+
+<h2 id="perf">性能上的四个决定</h2>
+
+<ol>
+  <li><strong>概率场缓存在离屏画布上。</strong>逐像素算 90×90 的前向，是整页最贵的一步。参数不变就不重算，颜色场只在参数真的变了之后重建。</li>
+  <li><strong>等高线用查表 + 线性插值。</strong>在网格的每条边上找跨过 0.5 的位置，连成线段。比逐像素判断快得多，线条也更干净。</li>
+  <li><strong>快照只存参数和损失。</strong>不存概率场，不存画布。拖时间轴时按需重算当前这一帧。</li>
+  <li><strong>动画只跑一个循环。</strong>播放、单步、拖动共用同一个 <code>requestAnimationFrame</code>，不会有两条时间线同时改参数。</li>
+</ol>
+
+<h2 id="deploy">部署时的路径问题</h2>
+
+<p>页面从主页的相对路径进入：<code>mlp/index.html</code>；观测台返回时用 <code>../index.html</code>。这种写法在个人站（<code>username.github.io</code>）和项目站（<code>username.github.io/repo</code>）里都能用。</p>
+
+<p>不要写 <code>/mlp/index.html</code>。以 <code>/</code> 开头会跑到域名根目录，在项目仓库里必然 404。另外三种常见的 404 原因是：文件名大小写不一致、<code>mlp/index1.html</code> 这种笔误、以及把 <code>mlp/</code> 目录拆出来单独放在了根目录。</p>
+
+<div class="callout">
+  <span class="callout-title">发布检查</span>
+  <p>上传时把 <code>index.html</code>、<code>mlp/</code>、<code>assets/</code> 和 <code>.nojekyll</code> 一起带上；Pages 的设置里选 <code>main</code> 分支的 <code>/ (root)</code>。等一分钟，先点开观测台，再点返回，两边的相对路径都通才算完。</p>
+</div>
+
+<h2 id="when">什么时候该放弃单文件</h2>
+
+<p>当页面开始有第二个“作品”、第三篇需要单独排版的内容时，单文件就不划算了。这个站现在有五篇文章和一个独立的观测台，所以它换成了“HTML 片段 + 一个只用标准库的构建脚本”：仍然没有依赖，仍然可以整站离线，但结构清楚得多。</p>
+
+<p>单文件是约束，也是一种设计工具。它逼着我在加功能之前先问一句：这个交互，值不值得让文件再大 20 KB。</p>

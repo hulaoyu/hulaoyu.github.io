@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light" data-root="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>「从瞎猜开始」：把一台 2–6–1 的小机器摊在桌面上 | 胡天宇的小站</title>
+<meta name="description" content="一台只有 25 个参数的网，在两块月牙之间学一条会拐弯的边界。每一轮都真的做前向、算损失、反传、更新，每个数字都在浏览器里现算。">
+<meta name="author" content="胡天宇">
+<meta name="theme-color" content="#fbf9f4">
+<link rel="canonical" href="https://hulaoyu.github.io/hulaoyu-/posts/mlp-observatory.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="胡天宇的小站">
+<meta property="og:title" content="「从瞎猜开始」：把一台 2–6–1 的小机器摊在桌面上 | 胡天宇的小站">
+<meta property="og:description" content="一台只有 25 个参数的网，在两块月牙之间学一条会拐弯的边界。每一轮都真的做前向、算损失、反传、更新，每个数字都在浏览器里现算。">
+<meta property="og:url" content="https://hulaoyu.github.io/hulaoyu-/posts/mlp-observatory.html">
+<meta property="og:image" content="https://hulaoyu.github.io/hulaoyu-/assets/img/preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="alternate" type="application/rss+xml" title="胡天宇的小站" href="../feed.xml">
+<link rel="stylesheet" href="../assets/css/site.css">
+<script>
+  (function () {
+    var p = 'system';
+    try { p = localStorage.getItem('theme-pref') || 'system'; } catch (e) {}
+    var dark = p === 'dark' || (p === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    var r = document.documentElement;
+    r.dataset.theme = dark ? 'dark' : 'light';
+    r.dataset.themePref = p;
+  })();
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">跳到正文</a>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <a class="avatar" href="../index.html" aria-label="胡天宇的小站 首页">
+      <img src="../assets/img/avatar.svg" alt="胡天宇的头像" width="104" height="104">
+    </a>
+    <div>
+      <p class="site-name"><a href="../index.html">胡天宇的小站</a></p>
+      <p class="site-tagline">把不好解释的东西，<br>拆成能动手的部分。</p>
+      <p class="site-meta">PORTFOLIO / NOTES / 2026</p>
+    </div>
+  </div>
+
+  <nav class="nav" aria-label="站点导航">
+    <ul>
+        <li><a href="../index.html"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11.2 12 4l8 7.2V20a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1z"/></svg>首页</a></li>
+        <li><a href="../projects.html"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.2"/><rect x="13" y="4" width="7" height="7" rx="1.2"/><rect x="4" y="13" width="7" height="7" rx="1.2"/><rect x="13" y="13" width="7" height="7" rx="1.2"/></svg>作品</a></li>
+        <li><a href="../categories.html"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7.5A1.5 1.5 0 0 1 4.5 6h4l2 2.2h7A1.5 1.5 0 0 1 19 9.7v8.8a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 3 18.5z"/></svg>分类</a></li>
+        <li><a href="../tags.html"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 4 7.5 20M16.5 4l-2 16M4 9h16M3 15h16"/></svg>标签</a></li>
+        <li><a href="../archives.html"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="4" rx="1"/><path d="M5 8v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8M10 12h4"/></svg>归档</a></li>
+        <li><a href="../about.html"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20.5c.8-3.6 3.9-5.3 7.5-5.3s6.7 1.7 7.5 5.3"/></svg>关于</a></li>
+    </ul>
+  </nav>
+
+  <div class="sidebar-foot">
+    <div class="theme-switch" role="group" aria-label="配色">
+      <button type="button" data-theme-set="light" aria-pressed="false" aria-label="浅色" title="浅色"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 3v1.8M12 19.2V21M4.6 4.6l1.3 1.3M18.1 18.1l1.3 1.3M3 12h1.8M19.2 12H21M4.6 19.4l1.3-1.3M18.1 5.9l1.3-1.3"/></svg></button>
+      <button type="button" data-theme-set="dark" aria-pressed="false" aria-label="深色" title="深色"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.4A8.4 8.4 0 1 1 9.6 4a6.7 6.7 0 0 0 10.4 10.4z"/></svg></button>
+      <button type="button" data-theme-set="system" aria-pressed="true" aria-label="跟随系统" title="跟随系统"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></button>
+    </div>
+    <p class="theme-label">浅色 / 深色 / 跟随系统</p>
+
+    <div class="socials">
+      <a class="icon-btn" href="https://github.com/hulaoyu" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" stroke="none" d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-1.04-.01-1.89-2.78.62-3.37-1.2-3.37-1.2-.45-1.18-1.11-1.49-1.11-1.49-.9-.63.07-.62.07-.62 1 .07 1.53 1.05 1.53 1.05.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.36 9.36 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.8-4.57 5.05.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg></a>
+      <a class="icon-btn" href="../feed.xml" aria-label="RSS 订阅"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19a1.2 1.2 0 1 1 0-2.4A1.2 1.2 0 0 1 5 19zM4 11a9 9 0 0 1 9 9M4 5a15 15 0 0 1 15 15"/></svg></a>
+      <a class="icon-btn" href="../about.html" aria-label="关于"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20.5c.8-3.6 3.9-5.3 7.5-5.3s6.7 1.7 7.5 5.3"/></svg></a>
+    </div>
+
+    <p class="colophon">
+      © 2026 胡天宇 · 保留部分权利<br>
+      无追踪 · 无外部依赖<br>
+      <a href="../about.html">关于这个站</a>
+    </p>
+  </div>
+</aside>
+
+<div class="main">
+<header class="topbar">
+  <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="打开导航" aria-controls="sidebar" aria-expanded="false">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+  </button>
+  <div class="crumbs"><a href="../index.html">首页</a><span class="sep">/</span><a href="../categories.html#cat=%E9%A1%B9%E7%9B%AE" class="cat">项目</a><span class="sep">/</span><span class="here" aria-current="page">「从瞎猜开始」：把一台 2–6–1 的小机器摊在桌面上</span></div>
+  <div class="topbar-actions">
+    <button class="search-hint" type="button" data-search-open aria-label="搜索（快捷键 /）">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.2"/><path d="m15.8 15.8 4.2 4.2"/></svg><span>搜索</span><kbd>/</kbd>
+    </button>
+    <a class="icon-btn" href="https://github.com/hulaoyu" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" stroke="none" d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-1.04-.01-1.89-2.78.62-3.37-1.2-3.37-1.2-.45-1.18-1.11-1.49-1.11-1.49-.9-.63.07-.62.07-.62 1 .07 1.53 1.05 1.53 1.05.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.36 9.36 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.8-4.57 5.05.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg></a>
+    <a class="icon-btn" href="../feed.xml" aria-label="RSS"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19a1.2 1.2 0 1 1 0-2.4A1.2 1.2 0 0 1 5 19zM4 11a9 9 0 0 1 9 9M4 5a15 15 0 0 1 15 15"/></svg></a>
+  </div>
+</header>
+  <main class="content" id="main">
+<div class="post-layout">
+  <article class="article">
+    <header class="article-head">
+      <div class="cats"><a class="chip" href="../categories.html#cat=%E9%A1%B9%E7%9B%AE">项目</a></div>
+      <h1>「从瞎猜开始」：把一台 <span class="nowrap">2–6–1</span> 的小机器摊在桌面上</h1>
+      <p class="meta">
+        <time datetime="2026-11-18">2026/11/18</time>
+        <span class="dot">·</span>
+        <span>约 5 分钟</span>
+      </p>
+    </header>
+
+    <div class="prose">
+<p>我想看的不是一条画好的边界，而是它从一条歪线变成月牙的那十几秒。</p>
+
+<p>教科书上的说法是：几个隐藏单元就足够切出两块月牙。这句话是对的，但它没告诉我第几轮之前模型还在瞎猜，也没说清楚那六个单元的形状是从哪一步开始弯的。于是我把网络压到能一眼看完的尺寸，把所有省下来的地方都留给“过程”。</p>
+
+<h2 id="why">为什么是 25 个参数</h2>
+
+<p>两个输入、六个隐藏单元、一个输出。权重和偏置加起来刚好 25 个，一张表就能摆完，不需要滚动，也不需要折叠。网络小到可以整段打印出来，读者才有可能相信“这里没有藏东西”。</p>
+
+<dl class="specs">
+  <div><dt>结构</dt><dd>2–6–1</dd></div>
+  <div><dt>参数</dt><dd>25</dd></div>
+  <div><dt>激活</dt><dd>tanh</dd></div>
+  <div><dt>上限</dt><dd>800 轮</dd></div>
+  <div><dt>样本</dt><dd>160</dd></div>
+  <div><dt>损失</dt><dd>BCE</dd></div>
+</dl>
+
+<p>代价是它只能画一条边界。但这正是我想看的东西：一条边界是怎么被 25 个数 <em>推</em> 出来的。</p>
+
+<h2 id="data">数据：160 个点，先给两块月牙</h2>
+
+<p>月牙（two moons）是我最常用的起点。它线性不可分，但也不至于像螺旋那样欺负人：两类各 80 个点，加一点抖动，边界要拐两次。网络如果能拐过这两个弯，就说明隐藏层真的在做事。</p>
+
+<p>页面上还能换另外三组：</p>
+
+<ul>
+  <li><strong>螺旋</strong>：两条搅在一起的臂，先别指望它一轮就学会。</li>
+  <li><strong>四角</strong>：对角同色，和 XOR 同构，一条直线绝对分不开。</li>
+  <li><strong>圆环</strong>：里外两类，考验的是“能不能围出一个圈”。</li>
+</ul>
+
+<p>换数据会重新撒种子，参数也跟着回到随机初始化。这里没有“上次训练好的权重”这种东西。</p>
+
+<h2 id="round">一轮到底算了什么</h2>
+
+<p>没有预训练权重，也没有录好的动画。你在页面上看到的每个数，都来自当前这一轮的四步。</p>
+
+<h3 id="forward">前向</h3>
+
+<p>对每个样本 <code>(x₁, x₂)</code>，先算隐藏层 <code>z⁽¹⁾ = W⁽¹⁾x + b⁽¹⁾</code>，过 tanh 得到激活 <code>a⁽¹⁾</code>；再算输出的 <code>z⁽²⁾ = W⁽²⁾a⁽¹⁾ + b⁽²⁾</code>，最后 sigmoid 成概率 <code>p</code>。</p>
+
+<h3 id="loss">损失</h3>
+
+<p>二元交叉熵，160 个样本取平均：</p>
+
+<pre><code>L = −(1/N) Σ [ y·ln p + (1 − y)·ln(1 − p) ]</code></pre>
+
+<p>曲线上的那个点就是它，不前不后。页面上写着“损失 L：0.003”的时候，这个数是这一轮真的算出来的，不是我挑的一张好看的截图。</p>
+
+<h3 id="backward">反传</h3>
+
+<p>输出层的误差 <code>δ⁽²⁾ = p − y</code>，往回推一层，tanh 的导数是 <code>1 − a²</code>：</p>
+
+<pre><code>δ⁽¹⁾ = δ⁽²⁾ · W⁽²⁾ · (1 − a⁽¹⁾²)</code></pre>
+
+<p>梯度就是这些 δ 和上一层激活值的外积。点开“抽一个样本”，你能看到某一个点在这一轮里分到了多少责任。</p>
+
+<h3 id="update">更新</h3>
+
+<pre><code>v ← 0.85 · v − 0.50 · ∂L/∂w
+w ← w + v</code></pre>
+
+<p>0.85 是动量，0.50 是学习率，都在左侧可以拖。全批量训练，一轮只更新一次，所以时间轴上的每一格都代表“又看完了 160 个样本”的样子。</p>
+
+<h2 id="watch">看见它学会</h2>
+
+<p>图 1 是第 800 轮。背景是被染色的概率场：朱红是模型觉得更像正类的地方，青是负类。中间那条粗线是 p=0.5 的等值线，也就是决策边界。更淡的几条线是更早轮次留下的边界——训练走过的路没有被擦掉。</p>
+
+<figure>
+  <img src="../assets/img/preview.webp" alt="MLP 观测台：月牙数据、染色概率场、决策边界、机器剖面与参数账本" width="1440" height="900" loading="lazy">
+  <figcaption><span class="fig-no">图 1</span>月牙数据，800 轮。朱红是正类，空心是负类；粗线是 p=0.5 的边界，淡线是更早轮次的边界。</figcaption>
+</figure>
+
+<p>图 2 把时间轴拖回第 2 轮。同一组样本，同一个网络，边界是一条几乎随机的斜线。准确率显示 85%，但那只是因为它把多数类猜对了。这是我最想让人看到的一帧：所谓“学会了”，中间有一大段看起来毫无道理的时间。</p>
+
+<figure>
+  <img src="../assets/img/replay.webp" alt="时间轴停在第 2 轮，网络、边界和账本一起退回去" width="1440" height="900" loading="lazy">
+  <figcaption><span class="fig-no">图 2</span>回放。时间轴停在第 2 轮，网络、边界和账本一起退回去。</figcaption>
+</figure>
+
+<p>图 3 换到螺旋。6 个隐藏单元只够画出一条粗糙的 S，左边那几个点怎么调都进不去。容量不够的时候，画面会诚实地告诉你不够。</p>
+
+<figure>
+  <img src="../assets/img/spiral.webp" alt="螺旋数据集上的决策边界，形状粗糙" width="1440" height="900" loading="lazy">
+  <figcaption><span class="fig-no">图 3</span>换一组数据。螺旋上，6 个隐藏单元只够画出一条粗糙的 S。</figcaption>
+</figure>
+
+<h2 id="ledger">把账摊开</h2>
+
+<p>页面右下角是那 25 个参数。每个格子同时写着三样东西：权重、这一轮的梯度、这一轮实际走了多远。格子的深浅是权重的绝对值，颜色是符号——青为正，朱红为负。</p>
+
+<p>点一个格子，下面会画出它从第 0 轮到当前轮的去向。你会看到有的参数一路单调地走，有的先冲过头再退回来，还有几个从头到尾几乎不动：它们对应的隐藏单元压根没被用起来。</p>
+
+<blockquote>
+  <p>参数不是“想”出来的，是被梯度和动量一格一格推出来的。账本只是把它写下来。</p>
+</blockquote>
+
+<h2 id="limits">它做不到的事</h2>
+
+<ul>
+  <li><strong>它不会自己变好。</strong>刷新页面，参数重新随机，网络回到什么都不会的状态。没有缓存，也没有“上次训练好的结果”。</li>
+  <li><strong>它会卡住。</strong>初始化不好的时候，六个单元里有两三个会死在 tanh 的饱和区，边界停在一条直线上。换个种子，或者加一个单元，通常就能出来。</li>
+  <li><strong>它不是通用的。</strong>2–6–1 只能画一条边界。想看懂更深的网络，这张桌子就不够大了。</li>
+</ul>
+
+<h2 id="open">怎么打开它</h2>
+
+<p>观测台是单文件，没有依赖，直接在这里看：</p>
+
+<p><a class="btn" href="../mlp/index.html">进入 MLP 观测台 <span aria-hidden="true">→</span></a></p>
+
+<p>几个开关值得先记住：<kbd>空格</kbd> 开始 / 暂停，<kbd>→</kbd> 单步一轮，<kbd>R</kbd> 重来，<kbd>G</kbd> 叠加历史边界。左侧可以换数据、改隐藏单元数和激活函数、拖学习率与动量；速度有四档，最快那档 800 轮十几秒就过完。</p>
+
+<p>如果只打算看一处，我建议先按 <kbd>R</kbd> 重来，然后把时间轴拖到第 1、2、5 轮，看那条边界是怎么从歪线开始弯的。</p>
+
+    </div>
+
+    <footer class="article-foot">
+      <span class="label">标签</span>
+      <div class="tags"><a class="chip" href="../tags.html#tag=MLP"><span class="hash">#</span>MLP</a><a class="chip" href="../tags.html#tag=%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD"><span class="hash">#</span>反向传播</a><a class="chip" href="../tags.html#tag=Canvas"><span class="hash">#</span>Canvas</a><a class="chip" href="../tags.html#tag=%E4%BA%A4%E4%BA%92%E8%A7%A3%E9%87%8A%E5%99%A8"><span class="hash">#</span>交互解释器</a></div>
+      <nav class="pager" aria-label="上下篇"><span class="placeholder"></span><a class="next" href="../posts/codex-built-this.html"><span class="dir">更早一篇 →</span><span class="ttl">一次对话，把站做出来：和 Codex 搭首页</span></a></nav>
+    </footer>
+  </article>
+
+  <aside class="toc" aria-label="文章目录">
+  <p class="toc-title">目录</p>
+  <ol>
+    <li class="lvl-2"><a href="#why">为什么是 25 个参数</a></li><li class="lvl-2"><a href="#data">数据：160 个点，先给两块月牙</a></li><li class="lvl-2"><a href="#round">一轮到底算了什么</a></li><li class="lvl-3"><a href="#forward">前向</a></li><li class="lvl-3"><a href="#loss">损失</a></li><li class="lvl-3"><a href="#backward">反传</a></li><li class="lvl-3"><a href="#update">更新</a></li><li class="lvl-2"><a href="#watch">看见它学会</a></li><li class="lvl-2"><a href="#ledger">把账摊开</a></li><li class="lvl-2"><a href="#limits">它做不到的事</a></li><li class="lvl-2"><a href="#open">怎么打开它</a></li>
+  </ol>
+</aside>
+</div>
+<footer class="site-foot">
+  <div class="foot-widgets">
+    <section>
+      <h2>最近更新</h2>
+      <ul class="foot-list">
+        <li><a href="../posts/mlp-observatory.html"><span class="when">2026/11/18</span>「从瞎猜开始」：把一台 2–6–1 的小机器摊在桌面上</a></li>
+        <li><a href="../posts/codex-built-this.html"><span class="when">2026/11/02</span>一次对话，把站做出来：和 Codex 搭首页</a></li>
+        <li><a href="../posts/keep-the-process.html"><span class="when">2026/10/21</span>把账摊开：解释一件事，别只给答案</a></li>
+      </ul>
+    </section>
+    <section>
+      <h2>热门标签</h2>
+      <div class="foot-tags">
+        <a href="../tags.html#tag=Canvas">Canvas<span class="n">2</span></a>
+        <a href="../tags.html#tag=GitHub%20Pages">GitHub Pages<span class="n">2</span></a>
+        <a href="../tags.html#tag=MLP">MLP<span class="n">2</span></a>
+        <a href="../tags.html#tag=AI%20Agent">AI Agent<span class="n">1</span></a>
+        <a href="../tags.html#tag=Codex">Codex<span class="n">1</span></a>
+        <a href="../tags.html#tag=%E4%BA%A4%E4%BA%92%E8%A7%A3%E9%87%8A%E5%99%A8">交互解释器<span class="n">1</span></a>
+        <a href="../tags.html#tag=%E5%86%99%E4%BD%9C">写作<span class="n">1</span></a>
+      </div>
+      <div class="foot-list" style="margin-top:1rem">
+        <a href="../feed.xml">RSS 订阅 <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19a1.2 1.2 0 1 1 0-2.4A1.2 1.2 0 0 1 5 19zM4 11a9 9 0 0 1 9 9M4 5a15 15 0 0 1 15 15"/></svg></a>
+      </div>
+    </section>
+  </div>
+
+  <div class="foot-base">
+    <span>© 2026 胡天宇 · 保留部分权利</span>
+    <span>本站无追踪、无外部请求 · 基于 <a href="../about.html#colophon">Chirpy 的版式</a></span>
+  </div>
+</footer>
+  </main>
+</div>
+
+<div class="backdrop" id="backdrop"></div>
+<button class="to-top" id="toTop" type="button" aria-label="回到顶部"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V6M6 12l6-6 6 6"/></svg></button>
+
+<dialog class="search-dialog" id="searchDialog" aria-label="站内搜索">
+  <div class="search-field">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.2"/><path d="m15.8 15.8 4.2 4.2"/></svg>
+    <input id="searchInput" type="search" placeholder="搜索文章、标签…" autocomplete="off" spellcheck="false" aria-label="搜索关键词">
+    <kbd>Esc</kbd>
+  </div>
+  <ul class="search-results" id="searchResults"></ul>
+  <div class="search-foot">
+    <span>↑↓ 选择</span><span>Enter 打开</span><span>/ 唤起 · Esc 关闭</span>
+  </div>
+</dialog>
+
+<script src="../assets/data/posts.js"></script>
+<script src="../assets/js/site.js" defer></script>
+</body>
+</html>

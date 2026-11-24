@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light" data-root="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>单文件、无依赖：一个页面有多重 | 胡天宇的小站</title>
+<meta name="description" content="不到 100 KB 的 HTML，零个外部请求，打开就能用。这条路是刻意选的，代价也写在明面上。">
+<meta name="author" content="胡天宇">
+<meta name="theme-color" content="#fbf9f4">
+<link rel="canonical" href="https://hulaoyu.github.io/hulaoyu-/posts/single-file.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="胡天宇的小站">
+<meta property="og:title" content="单文件、无依赖：一个页面有多重 | 胡天宇的小站">
+<meta property="og:description" content="不到 100 KB 的 HTML，零个外部请求，打开就能用。这条路是刻意选的，代价也写在明面上。">
+<meta property="og:url" content="https://hulaoyu.github.io/hulaoyu-/posts/single-file.html">
+<meta property="og:image" content="https://hulaoyu.github.io/hulaoyu-/assets/img/preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="alternate" type="application/rss+xml" title="胡天宇的小站" href="../feed.xml">
+<link rel="stylesheet" href="../assets/css/site.css">
+<script>
+  (function () {
+    var p = 'system';
+    try { p = localStorage.getItem('theme-pref') || 'system'; } catch (e) {}
+    var dark = p === 'dark' || (p === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    var r = document.documentElement;
+    r.dataset.theme = dark ? 'dark' : 'light';
+    r.dataset.themePref = p;
+  })();
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">跳到正文</a>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <a class="avatar" href="../index.html" aria-label="胡天宇的小站 首页">
+      <img src="../assets/img/avatar.svg" alt="胡天宇的头像" width="104" height="104">
+    </a>
+    <div>
+      <p class="site-name"><a href="../index.html">胡天宇的小站</a></p>
+      <p class="site-tagline">把不好解释的东西，<br>拆成能动手的部分。</p>
+      <p class="site-meta">PORTFOLIO / NOTES / 2026</p>
+    </div>
+  </div>
+
+  <nav class="nav" aria-label="站点导航">
+    <ul>
+        <li><a href="../index.html"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11.2 12 4l8 7.2V20a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1z"/></svg>首页</a></li>
+        <li><a href="../projects.html"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.2"/><rect x="13" y="4" width="7" height="7" rx="1.2"/><rect x="4" y="13" width="7" height="7" rx="1.2"/><rect x="13" y="13" width="7" height="7" rx="1.2"/></svg>作品</a></li>
+        <li><a href="../categories.html"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7.5A1.5 1.5 0 0 1 4.5 6h4l2 2.2h7A1.5 1.5 0 0 1 19 9.7v8.8a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 3 18.5z"/></svg>分类</a></li>
+        <li><a href="../tags.html"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 4 7.5 20M16.5 4l-2 16M4 9h16M3 15h16"/></svg>标签</a></li>
+        <li><a href="../archives.html"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="4" rx="1"/><path d="M5 8v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8M10 12h4"/></svg>归档</a></li>
+        <li><a href="../about.html"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20.5c.8-3.6 3.9-5.3 7.5-5.3s6.7 1.7 7.5 5.3"/></svg>关于</a></li>
+    </ul>
+  </nav>
+
+  <div class="sidebar-foot">
+    <div class="theme-switch" role="group" aria-label="配色">
+      <button type="button" data-theme-set="light" aria-pressed="false" aria-label="浅色" title="浅色"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 3v1.8M12 19.2V21M4.6 4.6l1.3 1.3M18.1 18.1l1.3 1.3M3 12h1.8M19.2 12H21M4.6 19.4l1.3-1.3M18.1 5.9l1.3-1.3"/></svg></button>
+      <button type="button" data-theme-set="dark" aria-pressed="false" aria-label="深色" title="深色"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.4A8.4 8.4 0 1 1 9.6 4a6.7 6.7 0 0 0 10.4 10.4z"/></svg></button>
+      <button type="button" data-theme-set="system" aria-pressed="true" aria-label="跟随系统" title="跟随系统"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></button>
+    </div>
+    <p class="theme-label">浅色 / 深色 / 跟随系统</p>
+
+    <div class="socials">
+      <a class="icon-btn" href="https://github.com/hulaoyu" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" stroke="none" d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-1.04-.01-1.89-2.78.62-3.37-1.2-3.37-1.2-.45-1.18-1.11-1.49-1.11-1.49-.9-.63.07-.62.07-.62 1 .07 1.53 1.05 1.53 1.05.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.36 9.36 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.8-4.57 5.05.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg></a>
+      <a class="icon-btn" href="../feed.xml" aria-label="RSS 订阅"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19a1.2 1.2 0 1 1 0-2.4A1.2 1.2 0 0 1 5 19zM4 11a9 9 0 0 1 9 9M4 5a15 15 0 0 1 15 15"/></svg></a>
+      <a class="icon-btn" href="../about.html" aria-label="关于"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20.5c.8-3.6 3.9-5.3 7.5-5.3s6.7 1.7 7.5 5.3"/></svg></a>
+    </div>
+
+    <p class="colophon">
+      © 2026 胡天宇 · 保留部分权利<br>
+      无追踪 · 无外部依赖<br>
+      <a href="../about.html">关于这个站</a>
+    </p>
+  </div>
+</aside>
+
+<div class="main">
+<header class="topbar">
+  <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="打开导航" aria-controls="sidebar" aria-expanded="false">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+  </button>
+  <div class="crumbs"><a href="../index.html">首页</a><span class="sep">/</span><a href="../categories.html#cat=%E5%B7%A5%E7%A8%8B" class="cat">工程</a><span class="sep">/</span><span class="here" aria-current="page">单文件、无依赖：一个页面有多重</span></div>
+  <div class="topbar-actions">
+    <button class="search-hint" type="button" data-search-open aria-label="搜索（快捷键 /）">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.2"/><path d="m15.8 15.8 4.2 4.2"/></svg><span>搜索</span><kbd>/</kbd>
+    </button>
+    <a class="icon-btn" href="https://github.com/hulaoyu" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" stroke="none" d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-1.04-.01-1.89-2.78.62-3.37-1.2-3.37-1.2-.45-1.18-1.11-1.49-1.11-1.49-.9-.63.07-.62.07-.62 1 .07 1.53 1.05 1.53 1.05.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.36 9.36 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.8-4.57 5.05.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg></a>
+    <a class="icon-btn" href="../feed.xml" aria-label="RSS"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19a1.2 1.2 0 1 1 0-2.4A1.2 1.2 0 0 1 5 19zM4 11a9 9 0 0 1 9 9M4 5a15 15 0 0 1 15 15"/></svg></a>
+  </div>
+</header>
+  <main class="content" id="main">
+<div class="post-layout">
+  <article class="article">
+    <header class="article-head">
+      <div class="cats"><a class="chip" href="../categories.html#cat=%E5%B7%A5%E7%A8%8B">工程</a></div>
+      <h1>单文件、无依赖：一个页面有多重</h1>
+      <p class="meta">
+        <time datetime="2026-09-27">2026/09/27</time>
+        <span class="dot">·</span>
+        <span>约 3 分钟</span>
+      </p>
+    </header>
+
+    <div class="prose">
+<p>观测台只有一个文件：不到 100 KB 的 HTML，里面塞着样式、脚本、数据生成和渲染。没有构建步骤，没有 <code>node_modules</code>，也没有一个指向 CDN 的请求。断网也能打开。</p>
+
+<h2 id="why">为什么选这条路</h2>
+
+<ul>
+  <li><strong>它必须能离线打开。</strong>我想把它发给别人，链接点开就该能用，而不是先看到一堆“正在加载”和失败的字体请求。</li>
+  <li><strong>它必须一直能用。</strong>依赖 CDN 的页面，半年后可能因为某个库升了大版本而变样；单文件不会。</li>
+  <li><strong>它必须容易检查。</strong>所有参数都在一个 <code>S</code> 对象里，想验证一个数，改一行就行。</li>
+</ul>
+
+<p>对一个需要“眼见为实”的解释器来说，少一层依赖，就少一层读者没法验证的东西。</p>
+
+<h2 id="cost">代价</h2>
+
+<p>代价同样具体：</p>
+
+<ul>
+  <li><strong>没有模块化。</strong>两千多行放在一起，函数顺序就是依赖顺序。改动一处要往上翻，确认状态是在哪初始化的。</li>
+  <li><strong>样式也会膨胀。</strong>没有工具类，每个组件的手写规则都在同一个文件里，久了要靠注释分区。</li>
+  <li><strong>复用很难。</strong>想把某一块搬到别的页面，得连状态和渲染一起搬。这也促使我把“能省的交互”省掉。</li>
+</ul>
+
+<h2 id="perf">性能上的四个决定</h2>
+
+<ol>
+  <li><strong>概率场缓存在离屏画布上。</strong>逐像素算 90×90 的前向，是整页最贵的一步。参数不变就不重算，颜色场只在参数真的变了之后重建。</li>
+  <li><strong>等高线用查表 + 线性插值。</strong>在网格的每条边上找跨过 0.5 的位置，连成线段。比逐像素判断快得多，线条也更干净。</li>
+  <li><strong>快照只存参数和损失。</strong>不存概率场，不存画布。拖时间轴时按需重算当前这一帧。</li>
+  <li><strong>动画只跑一个循环。</strong>播放、单步、拖动共用同一个 <code>requestAnimationFrame</code>，不会有两条时间线同时改参数。</li>
+</ol>
+
+<h2 id="deploy">部署时的路径问题</h2>
+
+<p>页面从主页的相对路径进入：<code>mlp/index.html</code>；观测台返回时用 <code>../index.html</code>。这种写法在个人站（<code>username.github.io</code>）和项目站（<code>username.github.io/repo</code>）里都能用。</p>
+
+<p>不要写 <code>/mlp/index.html</code>。以 <code>/</code> 开头会跑到域名根目录，在项目仓库里必然 404。另外三种常见的 404 原因是：文件名大小写不一致、<code>mlp/index1.html</code> 这种笔误、以及把 <code>mlp/</code> 目录拆出来单独放在了根目录。</p>
+
+<div class="callout">
+  <span class="callout-title">发布检查</span>
+  <p>上传时把 <code>index.html</code>、<code>mlp/</code>、<code>assets/</code> 和 <code>.nojekyll</code> 一起带上；Pages 的设置里选 <code>main</code> 分支的 <code>/ (root)</code>。等一分钟，先点开观测台，再点返回，两边的相对路径都通才算完。</p>
+</div>
+
+<h2 id="when">什么时候该放弃单文件</h2>
+
+<p>当页面开始有第二个“作品”、第三篇需要单独排版的内容时，单文件就不划算了。这个站现在有五篇文章和一个独立的观测台，所以它换成了“HTML 片段 + 一个只用标准库的构建脚本”：仍然没有依赖，仍然可以整站离线，但结构清楚得多。</p>
+
+<p>单文件是约束，也是一种设计工具。它逼着我在加功能之前先问一句：这个交互，值不值得让文件再大 20 KB。</p>
+
+    </div>
+
+    <footer class="article-foot">
+      <span class="label">标签</span>
+      <div class="tags"><a class="chip" href="../tags.html#tag=%E6%80%A7%E8%83%BD"><span class="hash">#</span>性能</a><a class="chip" href="../tags.html#tag=%E5%8D%95%E6%96%87%E4%BB%B6"><span class="hash">#</span>单文件</a><a class="chip" href="../tags.html#tag=Canvas"><span class="hash">#</span>Canvas</a><a class="chip" href="../tags.html#tag=GitHub%20Pages"><span class="hash">#</span>GitHub Pages</a></div>
+      <nav class="pager" aria-label="上下篇"><a class="prev" href="../posts/ledger-of-25.html"><span class="dir">← 更新一篇</span><span class="ttl">25 个参数的账本：怎么读一张权重表</span></a></nav>
+    </footer>
+  </article>
+
+  <aside class="toc" aria-label="文章目录">
+  <p class="toc-title">目录</p>
+  <ol>
+    <li class="lvl-2"><a href="#why">为什么选这条路</a></li><li class="lvl-2"><a href="#cost">代价</a></li><li class="lvl-2"><a href="#perf">性能上的四个决定</a></li><li class="lvl-2"><a href="#deploy">部署时的路径问题</a></li><li class="lvl-2"><a href="#when">什么时候该放弃单文件</a></li>
+  </ol>
+</aside>
+</div>
+<footer class="site-foot">
+  <div class="foot-widgets">
+    <section>
+      <h2>最近更新</h2>
+      <ul class="foot-list">
+        <li><a href="../posts/mlp-observatory.html"><span class="when">2026/11/18</span>「从瞎猜开始」：把一台 2–6–1 的小机器摊在桌面上</a></li>
+        <li><a href="../posts/codex-built-this.html"><span class="when">2026/11/02</span>一次对话，把站做出来：和 Codex 搭首页</a></li>
+        <li><a href="../posts/keep-the-process.html"><span class="when">2026/10/21</span>把账摊开：解释一件事，别只给答案</a></li>
+      </ul>
+    </section>
+    <section>
+      <h2>热门标签</h2>
+      <div class="foot-tags">
+        <a href="../tags.html#tag=Canvas">Canvas<span class="n">2</span></a>
+        <a href="../tags.html#tag=GitHub%20Pages">GitHub Pages<span class="n">2</span></a>
+        <a href="../tags.html#tag=MLP">MLP<span class="n">2</span></a>
+        <a href="../tags.html#tag=AI%20Agent">AI Agent<span class="n">1</span></a>
+        <a href="../tags.html#tag=Codex">Codex<span class="n">1</span></a>
+        <a href="../tags.html#tag=%E4%BA%A4%E4%BA%92%E8%A7%A3%E9%87%8A%E5%99%A8">交互解释器<span class="n">1</span></a>
+        <a href="../tags.html#tag=%E5%86%99%E4%BD%9C">写作<span class="n">1</span></a>
+      </div>
+      <div class="foot-list" style="margin-top:1rem">
+        <a href="../feed.xml">RSS 订阅 <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19a1.2 1.2 0 1 1 0-2.4A1.2 1.2 0 0 1 5 19zM4 11a9 9 0 0 1 9 9M4 5a15 15 0 0 1 15 15"/></svg></a>
+      </div>
+    </section>
+  </div>
+
+  <div class="foot-base">
+    <span>© 2026 胡天宇 · 保留部分权利</span>
+    <span>本站无追踪、无外部请求 · 基于 <a href="../about.html#colophon">Chirpy 的版式</a></span>
+  </div>
+</footer>
+  </main>
+</div>
+
+<div class="backdrop" id="backdrop"></div>
+<button class="to-top" id="toTop" type="button" aria-label="回到顶部"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V6M6 12l6-6 6 6"/></svg></button>
+
+<dialog class="search-dialog" id="searchDialog" aria-label="站内搜索">
+  <div class="search-field">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.2"/><path d="m15.8 15.8 4.2 4.2"/></svg>
+    <input id="searchInput" type="search" placeholder="搜索文章、标签…" autocomplete="off" spellcheck="false" aria-label="搜索关键词">
+    <kbd>Esc</kbd>
+  </div>
+  <ul class="search-results" id="searchResults"></ul>
+  <div class="search-foot">
+    <span>↑↓ 选择</span><span>Enter 打开</span><span>/ 唤起 · Esc 关闭</span>
+  </div>
+</dialog>
+
+<script src="../assets/data/posts.js"></script>
+<script src="../assets/js/site.js" defer></script>
+</body>
+</html>

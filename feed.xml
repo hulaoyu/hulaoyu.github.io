@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>胡天宇的小站</title>
+  <link>https://hulaoyu.github.io/hulaoyu-/</link>
+  <description>胡天宇的个人站：交互式解释器、前端，和一些没被裁掉的中间过程。</description>
+  <language>zh-CN</language>
+  <lastBuildDate>Tue, 24 Nov 2026 05:32:24 +0000</lastBuildDate>
+  <atom:link href="https://hulaoyu.github.io/hulaoyu-/feed.xml" rel="self" type="application/rss+xml"/>
+  <item>
+    <title>「从瞎猜开始」：把一台 2–6–1 的小机器摊在桌面上</title>
+    <link>https://hulaoyu.github.io/hulaoyu-/posts/mlp-observatory.html</link>
+    <guid isPermaLink="true">https://hulaoyu.github.io/hulaoyu-/posts/mlp-observatory.html</guid>
+    <pubDate>Wed, 18 Nov 2026 09:00:00 +0000</pubDate>
+    <category>项目</category>
+    <description>一台只有 25 个参数的网，在两块月牙之间学一条会拐弯的边界。每一轮都真的做前向、算损失、反传、更新，每个数字都在浏览器里现算。</description>
+  </item>
+  <item>
+    <title>一次对话，把站做出来：和 Codex 搭首页</title>
+    <link>https://hulaoyu.github.io/hulaoyu-/posts/codex-built-this.html</link>
+    <guid isPermaLink="true">https://hulaoyu.github.io/hulaoyu-/posts/codex-built-this.html</guid>
+    <pubDate>Mon, 02 Nov 2026 09:00:00 +0000</pubDate>
+    <category>建站</category>
+    <description>我描述想法，它负责设计、编码和部署。一次对话确实能到「可以上线」，但从「可以上线」到「愿意读」，中间还隔着自己走的一段路。</description>
+  </item>
+  <item>
+    <title>把账摊开：解释一件事，别只给答案</title>
+    <link>https://hulaoyu.github.io/hulaoyu-/posts/keep-the-process.html</link>
+    <guid isPermaLink="true">https://hulaoyu.github.io/hulaoyu-/posts/keep-the-process.html</guid>
+    <pubDate>Wed, 21 Oct 2026 09:00:00 +0000</pubDate>
+    <category>方法</category>
+    <description>只给答案最省事，但解释掉的往往不是过程，而是结论。观测台的三条规矩：真的算、把账摊开、让时间可倒——以及它们各自的代价。</description>
+  </item>
+  <item>
+    <title>25 个参数的账本：怎么读一张权重表</title>
+    <link>https://hulaoyu.github.io/hulaoyu-/posts/ledger-of-25.html</link>
+    <guid isPermaLink="true">https://hulaoyu.github.io/hulaoyu-/posts/ledger-of-25.html</guid>
+    <pubDate>Fri, 09 Oct 2026 09:00:00 +0000</pubDate>
+    <category>笔记</category>
+    <description>权重、梯度、本步位移，三个数挤在一个格子里。这张表能读出什么，又最容易读错什么。</description>
+  </item>
+  <item>
+    <title>单文件、无依赖：一个页面有多重</title>
+    <link>https://hulaoyu.github.io/hulaoyu-/posts/single-file.html</link>
+    <guid isPermaLink="true">https://hulaoyu.github.io/hulaoyu-/posts/single-file.html</guid>
+    <pubDate>Sun, 27 Sep 2026 09:00:00 +0000</pubDate>
+    <category>工程</category>
+    <description>不到 100 KB 的 HTML，零个外部请求，打开就能用。这条路是刻意选的，代价也写在明面上。</description>
+  </item>
+</channel>
+</rss>

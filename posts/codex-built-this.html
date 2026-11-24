@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light" data-root="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>一次对话，把站做出来：和 Codex 搭首页 | 胡天宇的小站</title>
+<meta name="description" content="我描述想法，它负责设计、编码和部署。一次对话确实能到「可以上线」，但从「可以上线」到「愿意读」，中间还隔着自己走的一段路。">
+<meta name="author" content="胡天宇">
+<meta name="theme-color" content="#fbf9f4">
+<link rel="canonical" href="https://hulaoyu.github.io/hulaoyu-/posts/codex-built-this.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="胡天宇的小站">
+<meta property="og:title" content="一次对话，把站做出来：和 Codex 搭首页 | 胡天宇的小站">
+<meta property="og:description" content="我描述想法，它负责设计、编码和部署。一次对话确实能到「可以上线」，但从「可以上线」到「愿意读」，中间还隔着自己走的一段路。">
+<meta property="og:url" content="https://hulaoyu.github.io/hulaoyu-/posts/codex-built-this.html">
+<meta property="og:image" content="https://hulaoyu.github.io/hulaoyu-/assets/img/preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="alternate" type="application/rss+xml" title="胡天宇的小站" href="../feed.xml">
+<link rel="stylesheet" href="../assets/css/site.css">
+<script>
+  (function () {
+    var p = 'system';
+    try { p = localStorage.getItem('theme-pref') || 'system'; } catch (e) {}
+    var dark = p === 'dark' || (p === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    var r = document.documentElement;
+    r.dataset.theme = dark ? 'dark' : 'light';
+    r.dataset.themePref = p;
+  })();
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">跳到正文</a>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <a class="avatar" href="../index.html" aria-label="胡天宇的小站 首页">
+      <img src="../assets/img/avatar.svg" alt="胡天宇的头像" width="104" height="104">
+    </a>
+    <div>
+      <p class="site-name"><a href="../index.html">胡天宇的小站</a></p>
+      <p class="site-tagline">把不好解释的东西，<br>拆成能动手的部分。</p>
+      <p class="site-meta">PORTFOLIO / NOTES / 2026</p>
+    </div>
+  </div>
+
+  <nav class="nav" aria-label="站点导航">
+    <ul>
+        <li><a href="../index.html"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11.2 12 4l8 7.2V20a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1z"/></svg>首页</a></li>
+        <li><a href="../projects.html"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.2"/><rect x="13" y="4" width="7" height="7" rx="1.2"/><rect x="4" y="13" width="7" height="7" rx="1.2"/><rect x="13" y="13" width="7" height="7" rx="1.2"/></svg>作品</a></li>
+        <li><a href="../categories.html"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7.5A1.5 1.5 0 0 1 4.5 6h4l2 2.2h7A1.5 1.5 0 0 1 19 9.7v8.8a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 3 18.5z"/></svg>分类</a></li>
+        <li><a href="../tags.html"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 4 7.5 20M16.5 4l-2 16M4 9h16M3 15h16"/></svg>标签</a></li>
+        <li><a href="../archives.html"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="4" rx="1"/><path d="M5 8v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8M10 12h4"/></svg>归档</a></li>
+        <li><a href="../about.html"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20.5c.8-3.6 3.9-5.3 7.5-5.3s6.7 1.7 7.5 5.3"/></svg>关于</a></li>
+    </ul>
+  </nav>
+
+  <div class="sidebar-foot">
+    <div class="theme-switch" role="group" aria-label="配色">
+      <button type="button" data-theme-set="light" aria-pressed="false" aria-label="浅色" title="浅色"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 3v1.8M12 19.2V21M4.6 4.6l1.3 1.3M18.1 18.1l1.3 1.3M3 12h1.8M19.2 12H21M4.6 19.4l1.3-1.3M18.1 5.9l1.3-1.3"/></svg></button>
+      <button type="button" data-theme-set="dark" aria-pressed="false" aria-label="深色" title="深色"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.4A8.4 8.4 0 1 1 9.6 4a6.7 6.7 0 0 0 10.4 10.4z"/></svg></button>
+      <button type="button" data-theme-set="system" aria-pressed="true" aria-label="跟随系统" title="跟随系统"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></button>
+    </div>
+    <p class="theme-label">浅色 / 深色 / 跟随系统</p>
+
+    <div class="socials">
+      <a class="icon-btn" href="https://github.com/hulaoyu" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" stroke="none" d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-1.04-.01-1.89-2.78.62-3.37-1.2-3.37-1.2-.45-1.18-1.11-1.49-1.11-1.49-.9-.63.07-.62.07-.62 1 .07 1.53 1.05 1.53 1.05.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.36 9.36 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.8-4.57 5.05.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg></a>
+      <a class="icon-btn" href="../feed.xml" aria-label="RSS 订阅"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19a1.2 1.2 0 1 1 0-2.4A1.2 1.2 0 0 1 5 19zM4 11a9 9 0 0 1 9 9M4 5a15 15 0 0 1 15 15"/></svg></a>
+      <a class="icon-btn" href="../about.html" aria-label="关于"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20.5c.8-3.6 3.9-5.3 7.5-5.3s6.7 1.7 7.5 5.3"/></svg></a>
+    </div>
+
+    <p class="colophon">
+      © 2026 胡天宇 · 保留部分权利<br>
+      无追踪 · 无外部依赖<br>
+      <a href="../about.html">关于这个站</a>
+    </p>
+  </div>
+</aside>
+
+<div class="main">
+<header class="topbar">
+  <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="打开导航" aria-controls="sidebar" aria-expanded="false">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+  </button>
+  <div class="crumbs"><a href="../index.html">首页</a><span class="sep">/</span><a href="../categories.html#cat=%E5%BB%BA%E7%AB%99" class="cat">建站</a><span class="sep">/</span><span class="here" aria-current="page">一次对话，把站做出来：和 Codex 搭首页</span></div>
+  <div class="topbar-actions">
+    <button class="search-hint" type="button" data-search-open aria-label="搜索（快捷键 /）">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.2"/><path d="m15.8 15.8 4.2 4.2"/></svg><span>搜索</span><kbd>/</kbd>
+    </button>
+    <a class="icon-btn" href="https://github.com/hulaoyu" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" stroke="none" d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-1.04-.01-1.89-2.78.62-3.37-1.2-3.37-1.2-.45-1.18-1.11-1.49-1.11-1.49-.9-.63.07-.62.07-.62 1 .07 1.53 1.05 1.53 1.05.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.36 9.36 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.8-4.57 5.05.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg></a>
+    <a class="icon-btn" href="../feed.xml" aria-label="RSS"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19a1.2 1.2 0 1 1 0-2.4A1.2 1.2 0 0 1 5 19zM4 11a9 9 0 0 1 9 9M4 5a15 15 0 0 1 15 15"/></svg></a>
+  </div>
+</header>
+  <main class="content" id="main">
+<div class="post-layout">
+  <article class="article">
+    <header class="article-head">
+      <div class="cats"><a class="chip" href="../categories.html#cat=%E5%BB%BA%E7%AB%99">建站</a></div>
+      <h1>一次对话，把站做出来：和 Codex 搭首页</h1>
+      <p class="meta">
+        <time datetime="2026-11-02">2026/11/02</time>
+        <span class="dot">·</span>
+        <span>约 3 分钟</span>
+      </p>
+    </header>
+
+    <div class="prose">
+<p>起点是一个空仓库，和三句话的需求：讲清楚我在用什么 AI Agent、用它做了什么、结果怎么样。没有后台，没有表单，最后要能挂在 GitHub Pages 上。</p>
+
+<p>我没有先画稿子，也没写需求文档。我把这三句话打进 Codex，然后一遍遍看它交出来的东西。</p>
+
+<h2 id="split">分工：我描述，它动手</h2>
+
+<p>Codex 负责的部分很具体：拆页面结构、写 HTML / CSS / JS、调响应式、给部署步骤。我负责的是它做不了的两件事——决定“要说什么”，和判断“这样说对不对”。</p>
+
+<p>第一次交互大概是这样，比想象中安静：</p>
+
+<div class="term">
+  <div class="term-bar"><i></i><i></i><i></i><span>codex — 项目目录</span></div>
+  <div class="term-body"><span class="cmd">$ codex</span>
+<span class="ask">› 帮我做一个个人网站，介绍我在用的 AI Agent，最后能发到 GitHub Pages</span>
+
+<span class="ok">✓</span> 已创建 index.html
+<span class="ok">✓</span> 已完成页面结构与视觉
+<span class="ok">✓</span> 已适配桌面端与移动端
+<span class="ok">✓</span> 已准备 GitHub Pages 部署
+<span class="cmd">$</span> <span class="caret"></span></div>
+</div>
+
+<h2 id="rounds">四次推进</h2>
+
+<ol>
+  <li><strong>先定结构。</strong>我只让它列大纲：首屏、Agent 介绍、用途、效果、页脚。大纲对了才让它写代码。这一步省下的返工比后面所有微调加起来都多。</li>
+  <li><strong>写页面。</strong>一次生成语义化的标签、一套 CSS 变量和十几行交互脚本；按钮、卡片、终端示意都是一起给的，风格是统一的。</li>
+  <li><strong>响应式。</strong>它主动加了断点，但第一版的手机样式只是“把桌面缩窄”：字号没变，行宽还是桌面那种感觉。</li>
+  <li><strong>部署。</strong>给出两种发布路径、<code>.nojekyll</code> 的作用，以及相对路径在项目仓库里的坑。</li>
+</ol>
+
+<h2 id="good">它做得好的三件事</h2>
+
+<ul>
+  <li><strong>结构先于样式。</strong>先给我能读的语义标签，再谈视觉。这让后来的替换成本很低。</li>
+  <li><strong>不乱加依赖。</strong>没有 CDN、没有字体服务、没有图标库。整页可以离线打开，这一点我后来一直保留着。</li>
+  <li><strong>把“交付”当回事。</strong>每次改完都附一句“现在可以推了”，再加具体命令，而不是留一句“你还需要自己配置”。</li>
+</ul>
+
+<h2 id="fixed">我后来改掉的四处</h2>
+
+<p>这些不算它写错，只是它不知道我的偏好。</p>
+
+<ol>
+  <li><strong>行宽。</strong>中文正文一行排到 70 多个字，读三行就串行。收到 36–40 个字，行高从 1.6 提到 1.8，立刻好读。</li>
+  <li><strong>对比度。</strong>浅灰字配浅米底，在显示器上勉强，在手机上几乎看不见。次要文字也提到了能通过 WCAG AA 的深度。</li>
+  <li><strong>CTA 链接。</strong>“查看仓库”的 <code>href</code> 写的是 <code>https://github.com</code>，看着像真的，点进去是首页。</li>
+  <li><strong>口气。</strong>“强大的 AI 能力”“全面赋能”这种词，我没法替它背。全部改成了具体动作和具体数字。</li>
+</ol>
+
+<h2 id="traps">三个坑</h2>
+
+<ul>
+  <li><strong>它会编链接。</strong>生成时不知道你的仓库地址，就会填一个形状正确的占位符。发布前必须逐个点一遍。</li>
+  <li><strong>它默认你在做个人站。</strong>仓库名不是 <code>username.github.io</code> 的时候，所有以 <code>/</code> 开头的路径都会 404，必须改成相对路径。</li>
+  <li><strong>“响应式”不等于“手机上能读”。</strong>断点存在只说明布局没炸，不说明字号、行宽、点击区域合适。</li>
+</ul>
+
+<h2 id="later">后来我把排版重做了一遍</h2>
+
+<p>首页上线之后，我又花了两个晚上，把它改成现在这个样子：加了侧栏、文章列表、分类和标签，字号和行高重新量过，深浅色也做成了两套变量。骨架还是那次对话里搭的——首屏、分区、页脚的位置几乎没动；皮肤和内容是自己重写的。</p>
+
+<p>这次重做让我确认了一件事：AI 能把“从零到能上线”这段路压得很短，但“从能上线到愿意读”这一段，还是得自己走。</p>
+
+<div class="callout">
+  <span class="callout-title">给同样想试的人</span>
+  <p>让 AI 先交结构，再交样式；每次只改一件事；把它给的每个链接都点一遍。剩下的时间花在文案上，收益比调圆角大得多。</p>
+</div>
+
+    </div>
+
+    <footer class="article-foot">
+      <span class="label">标签</span>
+      <div class="tags"><a class="chip" href="../tags.html#tag=Codex"><span class="hash">#</span>Codex</a><a class="chip" href="../tags.html#tag=AI%20Agent"><span class="hash">#</span>AI Agent</a><a class="chip" href="../tags.html#tag=GitHub%20Pages"><span class="hash">#</span>GitHub Pages</a><a class="chip" href="../tags.html#tag=%E5%BB%BA%E7%AB%99"><span class="hash">#</span>建站</a></div>
+      <nav class="pager" aria-label="上下篇"><a class="prev" href="../posts/mlp-observatory.html"><span class="dir">← 更新一篇</span><span class="ttl">「从瞎猜开始」：把一台 2–6–1 的小机器摊在桌面上</span></a><a class="next" href="../posts/keep-the-process.html"><span class="dir">更早一篇 →</span><span class="ttl">把账摊开：解释一件事，别只给答案</span></a></nav>
+    </footer>
+  </article>
+
+  <aside class="toc" aria-label="文章目录">
+  <p class="toc-title">目录</p>
+  <ol>
+    <li class="lvl-2"><a href="#split">分工：我描述，它动手</a></li><li class="lvl-2"><a href="#rounds">四次推进</a></li><li class="lvl-2"><a href="#good">它做得好的三件事</a></li><li class="lvl-2"><a href="#fixed">我后来改掉的四处</a></li><li class="lvl-2"><a href="#traps">三个坑</a></li><li class="lvl-2"><a href="#later">后来我把排版重做了一遍</a></li>
+  </ol>
+</aside>
+</div>
+<footer class="site-foot">
+  <div class="foot-widgets">
+    <section>
+      <h2>最近更新</h2>
+      <ul class="foot-list">
+        <li><a href="../posts/mlp-observatory.html"><span class="when">2026/11/18</span>「从瞎猜开始」：把一台 2–6–1 的小机器摊在桌面上</a></li>
+        <li><a href="../posts/codex-built-this.html"><span class="when">2026/11/02</span>一次对话，把站做出来：和 Codex 搭首页</a></li>
+        <li><a href="../posts/keep-the-process.html"><span class="when">2026/10/21</span>把账摊开：解释一件事，别只给答案</a></li>
+      </ul>
+    </section>
+    <section>
+      <h2>热门标签</h2>
+      <div class="foot-tags">
+        <a href="../tags.html#tag=Canvas">Canvas<span class="n">2</span></a>
+        <a href="../tags.html#tag=GitHub%20Pages">GitHub Pages<span class="n">2</span></a>
+        <a href="../tags.html#tag=MLP">MLP<span class="n">2</span></a>
+        <a href="../tags.html#tag=AI%20Agent">AI Agent<span class="n">1</span></a>
+        <a href="../tags.html#tag=Codex">Codex<span class="n">1</span></a>
+        <a href="../tags.html#tag=%E4%BA%A4%E4%BA%92%E8%A7%A3%E9%87%8A%E5%99%A8">交互解释器<span class="n">1</span></a>
+        <a href="../tags.html#tag=%E5%86%99%E4%BD%9C">写作<span class="n">1</span></a>
+      </div>
+      <div class="foot-list" style="margin-top:1rem">
+        <a href="../feed.xml">RSS 订阅 <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19a1.2 1.2 0 1 1 0-2.4A1.2 1.2 0 0 1 5 19zM4 11a9 9 0 0 1 9 9M4 5a15 15 0 0 1 15 15"/></svg></a>
+      </div>
+    </section>
+  </div>
+
+  <div class="foot-base">
+    <span>© 2026 胡天宇 · 保留部分权利</span>
+    <span>本站无追踪、无外部请求 · 基于 <a href="../about.html#colophon">Chirpy 的版式</a></span>
+  </div>
+</footer>
+  </main>
+</div>
+
+<div class="backdrop" id="backdrop"></div>
+<button class="to-top" id="toTop" type="button" aria-label="回到顶部"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V6M6 12l6-6 6 6"/></svg></button>
+
+<dialog class="search-dialog" id="searchDialog" aria-label="站内搜索">
+  <div class="search-field">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.2"/><path d="m15.8 15.8 4.2 4.2"/></svg>
+    <input id="searchInput" type="search" placeholder="搜索文章、标签…" autocomplete="off" spellcheck="false" aria-label="搜索关键词">
+    <kbd>Esc</kbd>
+  </div>
+  <ul class="search-results" id="searchResults"></ul>
+  <div class="search-foot">
+    <span>↑↓ 选择</span><span>Enter 打开</span><span>/ 唤起 · Esc 关闭</span>
+  </div>
+</dialog>
+
+<script src="../assets/data/posts.js"></script>
+<script src="../assets/js/site.js" defer></script>
+</body>
+</html>
